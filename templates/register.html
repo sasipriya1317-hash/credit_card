@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Register</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="bg"></div>
+
+<main class="wrap">
+<section class="card">
+
+<h1 class="title">New User Registration</h1>
+
+{% if request.args.get("msg") %}
+<div class="msg">{{ request.args.get("msg") }}</div>
+{% endif %}
+
+<form class="form" action="/register-user" method="post">
+
+<label>Name</label>
+<input type="text" name="name" required>
+
+<label>Account Number</label>
+<input type="text" name="account" required inputmode="numeric">
+
+<label>Phone Number</label>
+<input type="text" name="phone" required inputmode="numeric">
+
+<label>Opening Balance</label>
+<input type="number" name="balance" required>
+
+<!-- 🔥 CARD -->
+<label>Card Number</label>
+<input type="text" id="card" name="card"
+placeholder="1234 5678 9012 3456"
+maxlength="19"
+required>
+
+<label>Expiry Date</label>
+<input type="text" id="expiry" name="expiry"
+placeholder="MM/YY"
+maxlength="5"
+required>
+
+<label>CVV</label>
+<input type="password" name="cvv"
+maxlength="3"
+pattern="\d{3}"
+required>
+
+<button class="btn">Register</button>
+
+</form>
+
+<div class="footer">
+<a class="link" href="/">Back to Login</a>
+</div>
+
+</section>
+</main>
+
+<!-- 🔥 AUTO FORMAT SCRIPT -->
+<script>
+
+/// CARD AUTO SPACE (1234 5678 9012 3456)
+document.getElementById("card").addEventListener("input", function(e) {
+    let value = e.target.value.replace(/\D/g, '').substring(0,16);
+    let formatted = value.replace(/(.{4})/g, '$1 ').trim();
+    e.target.value = formatted;
+});
+
+/// EXPIRY AUTO FORMAT (MM/YY)
+document.getElementById("expiry").addEventListener("input", function(e) {
+    let value = e.target.value.replace(/\D/g, '').substring(0,4);
+
+    if (value.length >= 3) {
+        value = value.substring(0,2) + "/" + value.substring(2);
+    }
+
+    e.target.value = value;
+});
+
+</script>
+
+</body>
+</html>
